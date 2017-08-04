@@ -1,0 +1,251 @@
+					DATA MANIPULATION LANGUAGE
+
+
+
+1) INSERT
+
+mysql> insert into donor
+    ->      values("A",'20160211',"M",1,"a","Amit","EL",22,22030203),
+    ->      ("B",'20160213',"M",2,"ab","Ram","EL",25,22030234),
+    ->      ("A",'20160217',"F",3,"abc","Sita","EL",20,11900203),
+    ->      ("O",'20160221',"F",4,"abcd","Piya","EL",21,22039998),
+    ->      ("B+",'20160229',"M",5,"abcde","Raj","EL",22,22030201);
+Query OK, 5 rows affected (0.08 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from donor;
++------+----------+------+----------+---------+------+------+------+----------+
+| bl_g | dod      | sex  | donor_id | address | name | mh   | age  | phone    |
++------+----------+------+----------+---------+------+------+------+----------+
+| A    | 20160211 | M    |        1 | a       | Amit | EL   |   22 | 22030203 |
+| B    | 20160213 | M    |        2 | ab      | Ram  | EL   |   25 | 22030234 |
+| A    | 20160217 | F    |        3 | abc     | Sita | EL   |   20 | 11900203 |
+| O    | 20160221 | F    |        4 | abcd    | Piya | EL   |   21 | 22039998 |
+| B+   | 20160229 | M    |        5 | abcde   | Raj  | EL   |   22 | 22030201 |
++------+----------+------+----------+---------+------+------+------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into blood
+    -> values(1001,500,1,"A"),
+    ->    (1002,500,2,"B"),
+    ->    (1003,500,3,"A"),
+    ->    (1004,500,4,"O"),
+    ->    (1005,500,5,"B+");
+Query OK, 5 rows affected (0.08 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM BLOOD;
++------+------+------+-------------+
+| code | cost | did  | blood_group |
++------+------+------+-------------+
+| 1001 |  500 |    1 | A           |
+| 1002 |  500 |    2 | B           |
+| 1003 |  500 |    3 | A           |
+| 1004 |  500 |    4 | O           |
+| 1005 |  500 |    5 | B+          |
++------+------+------+-------------+
+5 rows in set (0.00 sec)
+
+mysql>  insert into blood_bank
+    ->      values(100,50,1,"A"),
+    ->      (200,150,2,"A"),
+    ->      (150,125,3,"B"),
+    ->      (250,150,4,"O"),
+    ->      (110,100,5,"B+");
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from blood_bank;
++--------+--------+---------------+-------------+
+| issues | orders | blood_bank_no | blood_group |
++--------+--------+---------------+-------------+
+|    100 |     50 |             1 | A           |
+|    200 |    150 |             2 | A           |
+|    150 |    125 |             3 | B           |
+|    250 |    150 |             4 | O           |
+|    110 |    100 |             5 | B+          |
++--------+--------+---------------+-------------+
+5 rows in set (0.00 sec)
+
+ mysql> insert into receiptonist
+    ->          values("andheri",23456789,1222,"abc",1,20000),
+    ->           ("andheri",23456766,1245,"a",2,20000),
+    ->           ("mira road",23456787,1224,"b",3,60000),
+    ->           ("kandivali",23436789,1244,"c",4,20000),
+    ->           ("andheri",23451789,1000,"aa",5,10000);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from  receiptonist;
++-----------+----------+--------+------+------+--------+
+| address   | phone    | emp_id | name | bno  | salary |
++-----------+----------+--------+------+------+--------+
+| andheri   | 23451789 |   1000 | aa   |    5 |  10000 |
+| andheri   | 23456789 |   1222 | abc  |    1 |  20000 |
+| mira road | 23456787 |   1224 | b    |    3 |  60000 |
+| kandivali | 23436789 |   1244 | c    |    4 |  20000 |
+| andheri   | 23456766 |   1245 | a    |    2 |  20000 |
++-----------+----------+--------+------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql>  insert into blood_bank_manager
+    ->      values(12,23456780,"xyza","andheri",1,50000),
+    ->      (12222,23156780,"yza","malad",2,75000),
+    ->      (1211,23256780,"yzab","andheri",3,60000),
+    ->      (1232,23556780,"x=yza","vile parle",4,75000),
+    ->      (12221,23336780,"xaayza","andheri",5,75000);
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
++--------+----------+--------+------------+------+--------+
+| emp_id | phone    | name   | address    | bno  | salary |
++--------+----------+--------+------------+------+--------+
+|     12 | 23456780 | xyza   | andheri    |    1 |  50000 |
+|   1211 | 23256780 | yzab   | andheri    |    3 |  60000 |
+|   1232 | 23556780 | x=yza  | vile parle |    4 |  75000 |
+|  12221 | 23336780 | xaayza | andheri    |    5 |  75000 |
+|  12222 | 23156780 | yza    | malad      |    2 |  75000 |
++--------+----------+--------+------------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into receiver
+    -> values(1, "xyxsy","B+","CJC"),
+    ->       (2, "ANIL","B+","CJC"),
+    ->       (3, "AYUSH","B","CJC2"),
+    ->       (4, "ABHI","O","CJC"),
+    ->       (5, "RAJ","B+","CJC");
+Query OK, 5 rows affected (0.06 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from receiver;
++------------+-------+-------------+-----------------+
+| patient_id | name  | blood_group | patient_disease |
++------------+-------+-------------+-----------------+
+|          1 | xyxsy | B+          | CJC             |
+|          2 | ANIL  | B+          | CJC             |
+|          3 | AYUSH | B           | CJC2            |
+|          4 | ABHI  | O           | CJC             |
+|          5 | RAJ   | B+          | CJC             |
++------------+-------+-------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into hospital
+    -> values(1,"aydychch","nmims",12344843),
+    -> (2,"aydych","niit",12333843),
+    -> (3,"aydy","nir",12344823),
+    -> (4,"aydyahch","mims",12334843),
+    -> (5,"aychch","ms",11144843);
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from hospital;
++-------------+----------+-------+----------+
+| hospital_id | address  | name  | phone    |
++-------------+----------+-------+----------+
+|           1 | aydychch | nmims | 12344843 |
+|           2 | aydych   | niit  | 12333843 |
+|           3 | aydy     | nir   | 12344823 |
+|           4 | aydyahch | mims  | 12334843 |
+|           5 | aychch   | ms    | 11144843 |
++-------------+----------+-------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into orders
+    -> values(1,1001),
+    ->     (2,1002),
+    ->     (3,1003),
+    ->     (4,1004),
+    ->     (5,1005);
+Query OK, 5 rows affected (0.11 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from orders;
++-----+-------+
+| hid | bcode |
++-----+-------+
+|   1 |  1001 |
+|   2 |  1002 |
+|   3 |  1003 |
+|   4 |  1004 |
+|   5 |  1005 |
++-----+-------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into admitted
+    -> values(1,1),
+    ->     (1,2),
+    ->     (2,3),
+    ->     (2,4),
+    ->     (3,5);
+Query OK, 5 rows affected (0.13 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from admitted;
++-----+-----+
+| hid | pid |
++-----+-----+
+|   1 |   1 |
+|   1 |   2 |
+|   2 |   3 |
+|   2 |   4 |
+|   3 |   5 |
++-----+-----+
+5 rows in set (0.00 sec)
+
+2) DELETE
+
+mysql> delete from admitted;
+Query OK, 5 rows affected (0.00 sec)
+
+mysql> select * from admitted;
+Empty set (0.00 sec)
+
+mysql> delete from admitted
+    -> where hid=2;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from admitted;
++-----+-----+
+| hid | pid |
++-----+-----+
+|   1 |   1 |
+|   3 |   3 |
+|   4 |   4 |
+|   5 |   5 |
++-----+-----+
+4 rows in set (0.00 sec)
+
+3) SELECT
+
+mysql> select  * from orders;
++-----+-------+
+| hid | bcode |
++-----+-------+
+|   1 |  1001 |
+|   2 |  1002 |
+|   3 |  1003 |
+|   4 |  1004 |
+|   5 |  1005 |
++-----+-------+
+5 rows in set (0.01 sec)
+
+4) UPDATE
+
+mysql> update donor
+    -> set age=22
+    -> where donor_id=1;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from donor;
++------+----------+------+----------+---------+------+------+----------+------+
+| bl_g | dod      | sex  | donor_id | address | name | mh   | phone    | age  |
++------+----------+------+----------+---------+------+------+----------+------+
+| A    | 20160211 | M    |        1 | a       | Amit | EL   | 22030203 |   22 |
+| B    | 20160213 | M    |        2 | ab      | Ram  | EL   | 22030234 | NULL |
+| A    | 20160217 | F    |        3 | abc     | Sita | EL   | 11900203 | NULL |
+| O    | 20160221 | F    |        4 | abcd    | Piya | EL   | 22039998 | NULL |
+| B+   | 20160229 | M    |        5 | abcde   | Raj  | EL   | 22030201 | NULL |
++------+----------+------+----------+---------+------+------+----------+------+
+5 rows in set (0.00 sec)

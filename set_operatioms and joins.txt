@@ -1,0 +1,93 @@
+				SET OPERATIONS AND JOINS
+
+
+SET OPERATIONS:-
+
+1) Retrieve blood bank no of the receiptonists or blood bank managers or both by eliminating duplicates.
+
+mysql> select bno
+    -> from receiptonist
+    -> union
+    -> select bno
+    -> from blood_bank_manager;
++------+
+| bno  |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
++------+
+
+2) Retrieve blood bank no of the receiptonists or blood bank managers or both without eliminating duplicates.
+
+mysql> select bno
+    ->      from receiptonist
+    ->      union all
+    ->      select bno
+    ->      from blood_bank_manager;
++------+
+| bno  |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
++------+
+10 rows in set (0.00 sec)
+
+UNIONS:-
+
+3) List hospitals who have blood receivers.
+
+mysql> select hid,pid
+    -> from admitted join hospital on hospital.hospital_id=admitted.hid;
++-----+-----+
+| hid | pid |
++-----+-----+
+|   1 |   1 |
+|   1 |   2 |
+|   2 |   3 |
+|   2 |   4 |
+|   3 |   5 |
++-----+-----+
+5 rows in set (0.00 sec)
+
+4) List all blood receivers whether they have received blood or not.
+
+mysql> select hid,pid
+    -> from admitted left join hospital on hospital.hospital_id=admitted.hid;
++-----+-----+
+| hid | pid |
++-----+-----+
+|   1 |   1 |
+|   1 |   2 |
+|   2 |   3 |
+|   2 |   4 |
+|   3 |   5 |
++-----+-----+
+5 rows in set (0.02 sec)
+
+5) List all hospitals whether they have blood receivers or not.
+
+mysql> select hid,pid
+    -> from admitted right join hospital on hospital.hospital_id=admitted.hid;
++------+------+
+| hid  | pid  |
++------+------+
+|    1 |    1 |
+|    1 |    2 |
+|    2 |    3 |
+|    2 |    4 |
+|    3 |    5 |
+| NULL | NULL |
+| NULL | NULL |
++------+------+
+7 rows in set (0.00 sec)

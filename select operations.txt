@@ -1,0 +1,276 @@
+						SELECT COMMANDS
+
+
+1) Retrieve all attribute values from donor.
+
+mysql> select * from donor;
++------+----------+------+----------+---------+------+------+----------+------+
+| bl_g | dod      | sex  | donor_id | address | name | mh   | phone    | age  |
++------+----------+------+----------+---------+------+------+----------+------+
+| A    | 20160211 | M    |        1 | a       | Amit | EL   | 22030203 |   22 |
+| B    | 20160213 | M    |        2 | ab      | Ram  | EL   | 22030234 |   25 |
+| A    | 20160217 | F    |        3 | abc     | Sita | EL   | 11900203 |   20 |
+| O    | 20160221 | F    |        4 | abcd    | Piya | EL   | 22039998 |   21 |
+| B+   | 20160229 | M    |        5 | abcde   | Raj  | EL   | 22030201 |   22 |
++------+----------+------+----------+---------+------+------+----------+------+
+5 rows in set (0.00 sec)
+
+2) Retrieve the cross product of admitted and receiver.
+
+mysql> select *
+    -> from admitted,receiver;
++-----+-----+------------+-------+------+-----------------+
+| hid | pid | patient_id | name  | bl_g | patient_disease |
++-----+-----+------------+-------+------+-----------------+
+|   1 |   1 |          1 | xyxsy | B+   | CJC             |
+|   2 |   2 |          1 | xyxsy | B+   | CJC             |
+|   3 |   3 |          1 | xyxsy | B+   | CJC             |
+|   4 |   4 |          1 | xyxsy | B+   | CJC             |
+|   5 |   5 |          1 | xyxsy | B+   | CJC             |
+|   1 |   1 |          2 | ANIL  | B+   | CJC             |
+|   2 |   2 |          2 | ANIL  | B+   | CJC             |
+|   3 |   3 |          2 | ANIL  | B+   | CJC             |
+|   4 |   4 |          2 | ANIL  | B+   | CJC             |
+|   5 |   5 |          2 | ANIL  | B+   | CJC             |
+|   1 |   1 |          3 | AYUSH | B    | CJC2            |
+|   2 |   2 |          3 | AYUSH | B    | CJC2            |
+|   3 |   3 |          3 | AYUSH | B    | CJC2            |
+|   4 |   4 |          3 | AYUSH | B    | CJC2            |
+|   5 |   5 |          3 | AYUSH | B    | CJC2            |
+|   1 |   1 |          4 | ABHI  | A    | CJC             |
+|   2 |   2 |          4 | ABHI  | A    | CJC             |
+|   3 |   3 |          4 | ABHI  | A    | CJC             |
+|   4 |   4 |          4 | ABHI  | A    | CJC             |
+|   5 |   5 |          4 | ABHI  | A    | CJC             |
+|   1 |   1 |          5 | RAJ   | B+   | CJC             |
+|   2 |   2 |          5 | RAJ   | B+   | CJC             |
+|   3 |   3 |          5 | RAJ   | B+   | CJC             |
+|   4 |   4 |          5 | RAJ   | B+   | CJC             |
+|   5 |   5 |          5 | RAJ   | B+   | CJC             |
++-----+-----+------------+-------+------+-----------------+
+25 rows in set (0.00 sec)
+
+3) Retrieve employee id of all receiptonists who work for blood bank 3.
+
+mysql> select emp_id
+    -> from receiptonist
+    -> where bno=3;
++--------+
+| emp_id |
++--------+
+|   1224 |
++--------+
+1 row in set (0.06 sec)
+
+4) Retrieve code and cost of all the blood samples having sex M. 
+
+mysql> select cost,code
+    -> from blood,donor
+    -> where sex="M" and did=donor_id;
++------+------+
+| cost | code |
++------+------+
+|  500 | 1001 |
+|  500 | 1002 |
+|  500 | 1005 |
++------+------+
+3 rows in set (0.02 sec)
+
+
+5) Retrieve code and cost of all the blood samples having sex M.
+
+mysql> select b.cost,b.code
+    -> from blood as b,donor as d
+    -> where d.sex="M" and d.donor_id=b.did;
++------+------+
+| cost | code |
++------+------+
+|  500 | 1001 |
+|  500 | 1002 |
+|  500 | 1005 |
++------+------+
+3 rows in set (0.00 sec)
+
+6) Retrieve distinct blood groups from donor.
+
+mysql> select distinct bl_g from donor;
++------+
+| bl_g |
++------+
+| A    |
+| B    |
+| O    |
+| B+   |
++------+
+4 rows in set (0.00 sec)
+
+7) Retrieve all blood groups from donor.
+
+mysql> select all bl_g from donor;
++------+
+| bl_g |
++------+
+| A    |
+| B    |
+| A    |
+| O    |
+| B+   |
++------+
+5 rows in set (0.00 sec)
+
+8) Retrieve all employee ids whose address is in 'd'.
+
+mysql> select emp_id
+    -> from receiptonist
+    -> where address like '%d%';
++--------+
+| emp_id |
++--------+
+|   1000 |
+|   1224 |
+|   1244 |
++--------+
+3 rows in set (0.00 sec)
+
+9) Retrieve all hospital's name whose phone number starts with 12.
+
+mysql> select name
+    -> from hospital
+    -> where phone like '12______';
++-------+
+| name  |
++-------+
+| nmims |
+| niit  |
+| nir   |
+| mims  |
++-------+
+4 rows in set (0.00 sec)
+
+10) Retrieve all donor names as donor_name for all donars having blood group "A".
+
+mysql> select name as donor_name
+    -> from donor
+    -> where bl_g="A";
++------------+
+| donor_name |
++------------+
+| Amit       |
+| Sita       |
++------------+
+2 rows in set (0.00 sec)
+
+11) Retrieve all blood samples from blood table having blood group "A" whose donor_id is between 1 and 4.
+
+mysql> select *
+    -> from blood
+    -> where (did between 1 and 4) and bl_g="A";
++------+------+------+------+
+| code | cost | did  | bl_g |
++------+------+------+------+
+| 1001 |  500 |    1 | A    |
+| 1003 |  500 |    3 | A    |
++------+------+------+------+
+2 rows in set (0.00 sec)
+
+12) Retrieve date of donating,name,age and blood code of all donors who are having sex "M" ordered alphabetically in ascending order by blood code and descending order by donor's name.
+
+mysql> select dod,name,age,code
+    -> from blood,donor
+    -> where sex='M' and donor_id=did
+    -> order by code asc, name desc;
++----------+------+------+------+
+| dod      | name | age  | code |
++----------+------+------+------+
+| 20160211 | Amit |   22 | 1001 |
+| 20160213 | Ram  |   25 | 1002 |
+| 20160229 | Raj  |   22 | 1005 |
++----------+------+------+------+
+3 rows in set (0.00 sec)
+
+13) Retrieve blood bank no. of all blood banks whose blood issues have been null.
+
+mysql> select blood_bank_no
+    -> from blood_bank
+    -> where issues is null;
+Empty set (0.00 sec)
+
+14) Retrieve maximum blood orders received by the blood banks. 
+
+mysql> select max(orders)
+    -> from blood_bank;
++-------------+
+| max(orders) |
++-------------+
+|         150 |
++-------------+
+1 row in set (0.03 sec)
+
+
+15) Retrieve minimum blood orders received by the blood banks.
+
+mysql> select min(orders)
+    -> from blood_bank;
++-------------+
+| min(orders) |
++-------------+
+|          50 |
++-------------+
+1 row in set (0.00 sec)
+
+16) Retrieve blood group wise average issues of blood from blood bank.
+
+mysql> select avg(issues)
+    -> from blood_bank
+    -> group by blood_group;
++-------------+
+| avg(issues) |
++-------------+
+|    150.0000 |
+|    150.0000 |
+|    110.0000 |
+|    250.0000 |
++-------------+
+4 rows in set (0.00 sec)
+
+17) Retrieve total number of blood receivers.
+
+mysql> select count(*)
+    -> from receiver;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.08 sec)
+
+18) Retrieve total issues of blood by all the blood banks.
+
+mysql> select sum(issues)
+    -> from blood_bank;
++-------------+
+| sum(issues) |
++-------------+
+|         810 |
++-------------+
+1 row in set (0.00 sec)
+
+19) Retrieve name,empolyee id and blood bank no of the blood bank manager and the average issues of blood for which the blood bank manager is working having   average issues greater than 125.
+
+mysql> select name,emp_id,avg(issues),bno
+    -> from blood_bank,blood_bank_manager
+    -> where blood_bank_no=bno
+    -> group by bno
+    -> having avg(issues)>125;
++-------+--------+-------------+------+
+| name  | emp_id | avg(issues) | bno  |
++-------+--------+-------------+------+
+| yza   |  12222 |    200.0000 |    2 |
+| yzab  |   1211 |    150.0000 |    3 |
+| x=yza |   1232 |    250.0000 |    4 |
++-------+--------+-------------+------+
+3 rows in set (0.02 sec)
+
+
+
+

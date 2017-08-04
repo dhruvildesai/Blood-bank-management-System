@@ -1,0 +1,127 @@
+					NESTED SUBQUERIES
+
+
+
+1) Find the hospitals who have patients admitted and who appear in the list of blood receivers.
+
+mysql> select hospital_id
+    -> from hospital
+    -> where hospital_id in(select hid
+    ->               from admitted);
++-------------+
+| hospital_id |
++-------------+
+|           1 |
+|           2 |
+|           3 |
++-------------+
+3 rows in set (0.08 sec)
+
+2)  Find the hospitals who have patients admitted but do not appear in the list of blood receivers.
+
+mysql> select hospital_id
+    -> from hospital
+    -> where hospital_id not in(select hid
+    ->                   from admitted);
++-------------+
+| hospital_id |
++-------------+
+|           4 |
+|           5 |
++-------------+
+2 rows in set (0.03 sec)
+
+3) Find all receiptonist's emp_id who have salary lesser than at least one blood bank manager residing at Andheri.
+
+mysql> select emp_id
+    -> from receiptonist
+    -> where salary < some(select salary
+    ->              from blood_bank_manager
+    ->              where address="andheri");
++--------+
+| emp_id |
++--------+
+|   1000 |
+|   1222 |
+|   1224 |
+|   1244 |
+|   1245 |
++--------+
+5 rows in set (0.00 sec)
+
+4) Find receiptonist's emp_id who have salary lesser than or equal to that of each blood bank manager resding at Andheri.
+
+mysql> select emp_id
+    -> from receiptonist
+    -> where salary <=all(select salary
+    ->              from blood_bank_manager
+    ->              where address="andheri");
++--------+
+| emp_id |
++--------+
+|   1000 |
+|   1222 |
+|   1244 |
+|   1245 |
++--------+
+4 rows in set (0.00 sec)
+
+5) Find the hospitals who have patients admitted and who appear in the list of blood receivers using exists.
+
+mysql> select hospital_id
+    -> from hospital
+    -> where exists(select *
+    ->              from admitted
+    ->       where admitted.hid=hospital.hospital_id);
++-------------+
+| hospital_id |
++-------------+
+|           1 |
+|           2 |
+|           3 |
++-------------+
+3 rows in set (0.17 sec)
+
+6) Find the hospitals who have patients admitted but do not appear in the list of blood receivers using not exists.
+
+mysql> select hospital_id
+    -> from hospital
+    -> where not exists(select *
+    ->                  from admitted
+    ->           where admitted.hid=hospital.hospital_id);
++-------------+
+| hospital_id |
++-------------+
+|           4 |
+|           5 |
++-------------+
+2 rows in set (0.00 sec)
+
+7) Create a backup for admitted table by copying all records of admitted to a new table admitted_bkp.
+
+mysql> create table admitted_bkp
+    ->      (
+    ->      hid int,
+    ->      pid int,
+    ->      primary key(hid,pid),
+    ->      foreign key(hid) references hospital(hospital_id),
+    ->      foreign key(pid) references receiver(patient_id)
+    ->      );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into admitted_bkp
+    -> select * from admitted;
+Query OK, 5 rows affected (0.22 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from admitted_bkp;
++-----+-----+
+| hid | pid |
++-----+-----+
+|   1 |   1 |
+|   1 |   2 |
+|   2 |   3 |
+|   2 |   4 |
+|   3 |   5 |
++-----+-----+
+5 rows in set (0.00 sec)

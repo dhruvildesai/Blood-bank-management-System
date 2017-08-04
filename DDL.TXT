@@ -1,0 +1,422 @@
+				DATA DEFINITION LANGUAGE
+
+
+1) CREATE
+
+mysql> create database blood_bank;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| blood_bank         |
+| i41a3              |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use blood_bank
+Database changed
+
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> create table donor
+    -> (
+    -> bl_g varchar(5),
+    -> dod varchar(10),
+    -> sex char,
+    -> donor_id int,
+    -> address varchar(50),
+    -> name varchar(20),
+    -> mh varchar(15),
+    -> age int,
+    -> phone int,
+    -> primary key(donor_id)
+    -> );
+
+Query OK, 0 rows affected (0.52 sec)
+
+mysql> desc donor;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| bl_g     | varchar(5)  | YES  |     | NULL    |       |
+| dod      | varchar(10) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| donor_id | int(11)     | NO   | PRI | NULL    |       |
+| address  | varchar(50) | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| mh       | varchar(15) | YES  |     | NULL    |       |
+| phone    | int(11)     | YES  |     | NULL    |       |
+| age      | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> create table blood
+    -> (
+    -> code int,
+    -> cost int,
+    -> did int,
+    -> bl_g varchar(5),
+    -> primary key(code),
+    -> foreign key(did) references donor(donor_id)
+    -> );
+Query OK, 0 rows affected (0.27 sec)
+
+
+mysql> desc blood;
++-------+------------+------+-----+---------+-------+
+| Field | Type       | Null | Key | Default | Extra |
++-------+------------+------+-----+---------+-------+
+| code  | int(11)    | NO   | PRI | NULL    |       |
+| cost  | int(11)    | YES  |     | NULL    |       |
+| did   | int(11)    | YES  | MUL | NULL    |       |
+| bl_g  | varchar(5) | YES  |     | NULL    |       |
++-------+------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table blood_bank
+    -> (
+    -> issues int,
+    -> orders int,
+    -> blood_bank_no int,
+    -> blood_group varchar(5),
+    -> primary key(blood_bank_no)
+    -> );
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> desc blood_bank;
++---------------+------------+------+-----+---------+-------+
+| Field         | Type       | Null | Key | Default | Extra |
++---------------+------------+------+-----+---------+-------+
+| issues        | int(11)    | YES  |     | NULL    |       |
+| orders        | int(11)    | YES  |     | NULL    |       |
+| blood_bank_no | int(11)    | NO   | PRI | NULL    |       |
+| blood_group   | varchar(5) | YES  |     | NULL    |       |
++---------------+------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table receiptonist
+    -> (
+    -> address varchar(50),
+    -> phone int,
+    -> emp_id int,
+    -> name varchar(20),
+    -> bno int,
+    -> salary int(10),
+    -> primary key(emp_id),
+    -> foreign key(bno) references blood_bank(blood_bank_no)
+    -> );
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> desc receiptonist;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| address | varchar(50) | YES  |     | NULL    |       |
+| phone   | int(11)     | YES  |     | NULL    |       |
+| emp_id  | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| bno     | int(11)     | YES  | MUL | NULL    |       |
+| salary  | int(10)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table blood_bank_manager
+    -> (
+    -> emp_id int,
+    -> phone int,
+    -> name varchar(20),
+    -> address varchar(50),
+    -> bno int,
+    -> salary int(10),
+    -> primary key(emp_id),
+    -> foreign key(bno) references blood_bank(blood_bank_no)
+    -> );
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> desc blood_bank_manager;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| emp_id  | int(11)     | NO   | PRI | NULL    |       |
+| phone   | int(11)     | YES  |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| address | varchar(50) | YES  |     | NULL    |       |
+| bno     | int(11)     | YES  | MUL | NULL    |       |
+| salary  | int(10)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table hospital
+    -> (
+    -> hospital_id int,
+    -> address varchar(50),
+    -> name varchar(20),
+    -> phone int,
+    -> primary key(hospital_id)
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> desc hospital;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| hospital_id | int(11)     | NO   | PRI | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| phone       | int(11)     | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> create table receiver
+    -> (
+    -> patient_id int,
+    -> name varchar(20),
+    -> bl_g varchar(5),
+    -> patient_disease varchar(50),
+    -> primary key(patient_id)
+    -> );
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> desc receiver;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| patient_id      | int(11)     | NO   | PRI | NULL    |       |
+| name            | varchar(20) | YES  |     | NULL    |       |
+| bl_g            | varchar(5)  | YES  |     | NULL    |       |
+| patient_disease | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+
+mysql> create table orders
+    -> (
+    -> hid int,
+    -> bcode int,
+    -> primary key(hid,bcode),
+    -> foreign key(hid) references hospital(hospital_id),
+    -> foreign key(bcode) references blood(code)
+    -> );
+Query OK, 0 rows affected (1.56 sec)
+
+mysql> desc orders;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| hid   | int(11) | NO   | PRI | NULL    |       |
+| bcode | int(11) | NO   | PRI | NULL    |       |
++-------+---------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> create table admitted
+    -> (
+    -> hid int,
+    -> pid int,
+    -> primary key(hid,pid),
+    -> foreign key(hid) references hospital(hospital_id),
+    -> foreign key(pid) references receiver(patient_id)
+    -> );
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> desc admitted;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| hid   | int(11) | NO   | PRI | NULL    |       |
+| pid   | int(11) | NO   | PRI | NULL    |       |
++-------+---------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+2) ALTER
+
+* DROPPING A COLUMN FROM THE TABLE
+
+mysql> Alter table donor drop column age;
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from donor;
++------+----------+------+----------+---------+------+------+----------+
+| bl_g | dod      | sex  | donor_id | address | name | mh   | phone    |
++------+----------+------+----------+---------+------+------+----------+
+| A    | 20160211 | M    |        1 | a       | Amit | EL   | 22030203 |
+| B    | 20160213 | M    |        2 | ab      | Ram  | EL   | 22030234 |
+| A    | 20160217 | F    |        3 | abc     | Sita | EL   | 11900203 |
+| O    | 20160221 | F    |        4 | abcd    | Piya | EL   | 22039998 |
+| B+   | 20160229 | M    |        5 | abcde   | Raj  | EL   | 22030201 |
++------+----------+------+----------+---------+------+------+----------+
+5 rows in set (0.01 sec)
+
+* ADDING NEW COLUMNS
+
+mysql> alter table donor
+    -> add (age int);
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from donor;
++------+----------+------+----------+---------+------+------+----------+------+
+| bl_g | dod      | sex  | donor_id | address | name | mh   | phone    | age  |
++------+----------+------+----------+---------+------+------+----------+------+
+| A    | 20160211 | M    |        1 | a       | Amit | EL   | 22030203 | NULL |
+| B    | 20160213 | M    |        2 | ab      | Ram  | EL   | 22030234 | NULL |
+| A    | 20160217 | F    |        3 | abc     | Sita | EL   | 11900203 | NULL |
+| O    | 20160221 | F    |        4 | abcd    | Piya | EL   | 22039998 | NULL |
+| B+   | 20160229 | M    |        5 | abcde   | Raj  | EL   | 22030201 | NULL |
++------+----------+------+----------+---------+------+------+----------+------+
+5 rows in set (0.00 sec)
+
+mysql> desc donor;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| bl_g     | varchar(5)  | YES  |     | NULL    |       |
+| dod      | varchar(10) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| donor_id | int(11)     | NO   | PRI | NULL    |       |
+| address  | varchar(50) | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| mh       | varchar(15) | YES  |     | NULL    |       |
+| phone    | int(11)     | YES  |     | NULL    |       |
+| age      | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+9 rows in set (0.02 sec)
+
+* MODIFYING EXISTING TABLE
+
+mysql> alter table donor
+    -> modify age varchar(5);
+Query OK, 5 rows affected (0.13 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> desc donor;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| bl_g     | varchar(5)  | YES  |     | NULL    |       |
+| dod      | varchar(10) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| donor_id | int(11)     | NO   | PRI | NULL    |       |
+| address  | varchar(50) | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| mh       | varchar(15) | YES  |     | NULL    |       |
+| phone    | int(11)     | YES  |     | NULL    |       |
+| age      | varchar(5)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+* RENAMING EXISTING TABLE
+
+mysql> alter table donor rename don;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_blood_bank |
++----------------------+
+| admitted             |
+| blood                |
+| blood_bank           |
+| blood_bank_manager   |
+| don                  |
+| hospital             |
+| orders               |
+| receiptonist         |
+| receiver             |
++----------------------+
+9 rows in set (0.01 sec)
+
+3) RENAME
+
+mysql> rename table donor to don
+    -> ;
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_blood_bank |
++----------------------+
+| admitted             |
+| blood                |
+| blood_bank           |
+| blood_bank_manager   |
+| don                  |
+| hospital             |
+| orders               |
+| receiptonist         |
+| receiver             |
++----------------------+
+9 rows in set (0.00 sec)
+4) DROP 
+
+mysql> drop table admitted;
+Query OK, 0 rows affected (0.01 sec)
+mysql> show tables;
++----------------------+
+| Tables_in_blood_bank |
++----------------------+
+| blood                |
+| blood_bank           |
+| blood_bank_manager   |
+| donor                |
+| hospital             |
+| orders               |
+| receiptonist         |
+| receiver             |
++----------------------+
+8 rows in set (0.00 sec)
+
+5) TRUNCATE:
+
+mysql> truncate table admitted;
+Query OK, 0 rows affected (0.05 sec)
+mysql> select * from admitted;
+Empty set (0.00 sec)
+
+
+6) SHOW
+mysql> show tables;
++----------------------+
+| Tables_in_blood_bank |
++----------------------+
+| admitted             |
+| blood                |
+| blood_bank           |
+| blood_bank_manager   |
+| donor                |
+| hospital             |
+| orders               |
+| receiptonist         |
+| receiver             |
++----------------------+
+9 rows in set (0.00 sec)
+
+7) DESCRIBE
+
+mysql> desc donor;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| bl_g     | varchar(5)  | YES  |     | NULL    |       |
+| dod      | varchar(10) | YES  |     | NULL    |       |
+| sex      | char(1)     | YES  |     | NULL    |       |
+| donor_id | int(11)     | NO   | PRI | NULL    |       |
+| address  | varchar(50) | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| mh       | varchar(15) | YES  |     | NULL    |       |
+| phone    | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.02 sec)
+
+
